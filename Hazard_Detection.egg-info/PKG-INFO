@@ -1,0 +1,38 @@
+Metadata-Version: 2.2
+Name: Hazard-Detection
+Version: 0.1.0
+Summary: Detect hazards in data
+Home-page: http://pypi.python.org/pypi/Hazard-Detection/
+Author: Keith Burghardt
+Author-email: keithab@isi.edu
+License: LICENSE.txt
+License-File: LICENSE.txt
+Requires-Dist: pandas==2.0.2
+Requires-Dist: numpy>=1.17
+Requires-Dist: python-dateutil>=2.8.2
+Requires-Dist: pytz>=2020.1
+Requires-Dist: sklearn==1.2.2
+Requires-Dist: scipy>=1.10
+Requires-Dist: joblib>=1.0
+Requires-Dist: sentence_transformers==2.2.2
+Requires-Dist: transformers<5.0.0,>=4.32.0
+Requires-Dist: tqdm
+Requires-Dist: torch>=1.11.0
+Requires-Dist: nltk
+Requires-Dist: sentencepiece
+Requires-Dist: huggingface-hub>=0.15.1
+Requires-Dist: Pillow
+Requires-Dist: demoji==1.1.0
+Requires-Dist: tensorflow==2.18.0
+Requires-Dist: xgboost==2.1.4
+Dynamic: author
+Dynamic: author-email
+Dynamic: description
+Dynamic: home-page
+Dynamic: license
+Dynamic: requires-dist
+Dynamic: summary
+
+- hazard_detection.py: code to extract hazards from X posts in JSONL format.
+- finalized_model_SVM.sav: the SVM model that detects hazards from XLM-RoBERTa embeddings
+

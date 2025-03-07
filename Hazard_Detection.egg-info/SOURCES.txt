@@ -1,0 +1,17 @@
+CHANGES.txt
+LICENSE.txt
+MANIFEST.in
+README.md
+requirements.txt
+setup.py
+Hazard_Detection.egg-info/PKG-INFO
+Hazard_Detection.egg-info/SOURCES.txt
+Hazard_Detection.egg-info/dependency_links.txt
+Hazard_Detection.egg-info/requires.txt
+Hazard_Detection.egg-info/top_level.txt
+bin/example.py
+docs/documentation.txt
+hazdet/__init__.py
+hazdet/inference.py
+hazdet/train.py
+hazdet/test/__init__.py
