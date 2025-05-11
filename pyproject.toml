@@ -5,7 +5,8 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "hazdet"
 version = "0.1.1"
-dynamic = ["version"]
+# version is already specified above, so removing dynamic
+# dynamic = ["version"]
 dependencies =[
     "pandas==2.0.2",
     "numpy >= 1.17",
@@ -46,7 +47,7 @@ classifiers = [
 Homepage = "https://www.kburg.co/"
 Documentation = "https://github.com/KeithBurghardt/HazardPackage/blob/main/README.md"
 Repository = "https://github.com/KeithBurghardt/HazardPackage"
-Issues = https://github.com/KeithBurghardt/HazardPackage/issues"
+Issues = "https://github.com/KeithBurghardt/HazardPackage/issues"
 Changelog = "https://github.com/KeithBurghardt/HazardPackage/blob/master/CHANGELOG.md"
 
 

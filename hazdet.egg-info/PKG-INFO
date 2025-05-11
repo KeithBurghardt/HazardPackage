@@ -1,0 +1,46 @@
+Metadata-Version: 2.4
+Name: hazdet
+Version: 0.1.1
+Summary: Detect hazards within social media text.
+Home-page: http://pypi.python.org/pypi/Hazard-Detection/
+Author: Keith Burghardt
+Author-email: Keith Burghardt <keithab@isi.edu>
+Maintainer-email: Keith Burghardt <keithab@isi.edu>
+License-Expression: MIT
+Project-URL: Homepage, https://www.kburg.co/
+Project-URL: Documentation, https://github.com/KeithBurghardt/HazardPackage/blob/main/README.md
+Project-URL: Repository, https://github.com/KeithBurghardt/HazardPackage
+Project-URL: Issues, https://github.com/KeithBurghardt/HazardPackage/issues
+Project-URL: Changelog, https://github.com/KeithBurghardt/HazardPackage/blob/master/CHANGELOG.md
+Keywords: hazard,nlp,detection,social media
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+License-File: AUTHORS.md
+Requires-Dist: pandas==2.0.2
+Requires-Dist: numpy>=1.17
+Requires-Dist: python-dateutil>=2.8.2
+Requires-Dist: pytz>=2020.1
+Requires-Dist: scikit-learn==1.2.2
+Requires-Dist: scipy>=1.10
+Requires-Dist: joblib>=1.0
+Requires-Dist: sentence-transformers==2.2.2
+Requires-Dist: transformers<5.0.0,>=4.32.0
+Requires-Dist: tqdm
+Requires-Dist: torch>=1.11.0
+Requires-Dist: nltk
+Requires-Dist: sentencepiece
+Requires-Dist: huggingface-hub>=0.15.1
+Requires-Dist: Pillow
+Requires-Dist: demoji==1.1.0
+Requires-Dist: tensorflow==2.18.0
+Requires-Dist: xgboost==2.1.4
+Dynamic: author
+Dynamic: home-page
+Dynamic: license-file
+
+- hazard_detection.py: code to extract hazards from X posts in JSONL format.
+- finalized_model_SVM.sav: the SVM model that detects hazards from XLM-RoBERTa embeddings
+

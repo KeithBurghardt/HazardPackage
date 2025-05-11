@@ -1,4 +1,3 @@
-
 from setuptools import setup
 setup(
     name='Hazard-Detection',
@@ -29,5 +28,5 @@ setup(
     "Pillow",
     "demoji==1.1.0",
     "tensorflow==2.18.0",
-    "xgboost==2.1.4"],
+    "xgboost==2.1.4"]
 )
