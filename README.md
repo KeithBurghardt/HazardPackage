@@ -1,8 +1,12 @@
 # AI model to detect hazard information in text
 
 ## How to install
-To install, just use pip install -e .   
-
+To install:
+```
+git clone git@github.com:username/repo.git #(anonymized for review purposes)
+cd repo #(anonymized for review purposes)
+pip install -e .   
+```
 ## Quick start
 ```
 from hazdet.inference import inference
