@@ -1,8 +1,8 @@
-from distutils.core import setup
 
+from setuptools import setup
 setup(
     name='Hazard-Detection',
-    version='0.1.0',
+    version='0.1.1',
     author='Keith Burghardt',
     author_email='keithab@isi.edu',
     packages=['hazdet', 'hazdet.test'],
