@@ -114,32 +114,37 @@ def clean_qualtrics_data(file='Tweet annotation.csv'):
     return annotations,hazard_col,benefit_col
 
 def create_features(file='Tweet annotation.csv'):
-    # extract resshaped data
-    annotations,hazard_col,benefit_col = clean_qualtrics_data(file)
-    text_haz_ben=annotations[['text',hazard_col,benefit_col]]
-    text_haz_ben[hazard_col] = text_haz_ben[hazard_col].replace('Yes',1).replace('No',0).dropna()
-    text_haz_ben[benefit_col] = text_haz_ben[benefit_col].replace('Yes',1).replace('No',0).dropna()
-    unique_text = text_haz_ben['text'].drop_duplicates()
-    haz_ben_annots = text_haz_ben.groupby('text')
-    GT_labels = {'text':[],'hazard':[],'benefit':[],'old_text':[]}
-    for t in unique_text:
-        annots = haz_ben_annots.get_group(t)
-        # require at least 2 annotations
-        if len(annots) <= 2: continue
-        ben = annots[benefit_col].values.sum()/len(annots)
-        haz = annots[hazard_col].values.sum()/len(annots)
-        all_replace={}
-        replaced_text = []
-        # replace emojis
-        replace = demoji.findall(t)
-        new_t = t
-        for word, initial in replace.items():
-            new_t = new_t.replace(word, initial)
-        GT_labels['old_text'].append(t)
-        GT_labels['text'].append(new_t)
-        GT_labels['hazard'].append(haz)
-        GT_labels['benefit'].append(ben)
-    GT_labels = pd.DataFrame(GT_labels)
+    # extract reshaped data
+    
+    raw_qualtrics = False
+    if raw_qualtrics:
+        annotations,hazard_col,benefit_col = clean_qualtrics_data(file)
+        text_haz_ben=annotations[['text',hazard_col,benefit_col]]
+        text_haz_ben[hazard_col] = text_haz_ben[hazard_col].replace('Yes',1).replace('No',0).dropna()
+        text_haz_ben[benefit_col] = text_haz_ben[benefit_col].replace('Yes',1).replace('No',0).dropna()
+        unique_text = text_haz_ben['text'].drop_duplicates()
+        haz_ben_annots = text_haz_ben.groupby('text')
+        GT_labels = {'text':[],'hazard':[],'benefit':[],'old_text':[]}
+        for t in unique_text:
+            annots = haz_ben_annots.get_group(t)
+            # require at least 2 annotations
+            if len(annots) <= 2: continue
+            ben = annots[benefit_col].values.sum()/len(annots)
+            haz = annots[hazard_col].values.sum()/len(annots)
+            all_replace={}
+            replaced_text = []
+            # replace emojis
+            replace = demoji.findall(t)
+            new_t = t
+            for word, initial in replace.items():
+                new_t = new_t.replace(word, initial)
+            GT_labels['old_text'].append(t)
+            GT_labels['text'].append(new_t)
+            GT_labels['hazard'].append(haz)
+            GT_labels['benefit'].append(ben)
+        GT_labels = pd.DataFrame(GT_labels)
+    else:
+        GT_labels = pd.read_csv(file)
     #Sentences are encoded by calling model.encode()
     model = SentenceTransformer('stsb-xlm-r-multilingual')#'all-mpnet-base-v2')
     embeddings = model.encode(GT_labels['text'].values)
