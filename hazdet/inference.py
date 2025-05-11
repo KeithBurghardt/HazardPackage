@@ -28,17 +28,17 @@ def load_data(file,text_col='text'):
         raise Exception('ERROR: Could not find a text column. Please input the correct text column.')
     return data,text_col
 
-def inference(file,model_file,text_col='text',sentence_tf= 'stsb-xlm-r-multilingual'):
+def inference(file,model_filename,text_col='text',sentence_tf= 'stsb-xlm-r-multilingual'):
     # if 
     data,text_col = load_data(file,text_col)
     if data is None or len(data) == 0:
         raise Exception('ERROR: data file is blank: ',file)
-    if not os.path.exists(model_file):
-        raise Exception('ERROR: model file is missing: ',model_file)
+    if not os.path.exists(model_filename):
+        raise Exception('ERROR: model file is missing: ',model_filename)
     try:
-        clf = pk.load(open(model_file,'rb'))
+        clf = pk.load(open(model_filename,'rb'))
     except:
-        raise Exception('ERROR: model file could not be open (perhaps it is corrupted or in the wrong format): ',model_file)
+        raise Exception('ERROR: model file could not be open (perhaps it is corrupted or in the wrong format): ',model_filename)
     try:
         model = SentenceTransformer(sentence_tf)
     except:
