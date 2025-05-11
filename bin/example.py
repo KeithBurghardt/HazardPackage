@@ -1,8 +1,8 @@
-from hadet import inference
+from hazdet import inference
 def main():
     file = ''
     data = pd.read_csv(file)
-    predictions = hadet(data)
+    predictions = inference(data)
     
 
 __init__():
