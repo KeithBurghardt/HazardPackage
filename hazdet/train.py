@@ -365,7 +365,7 @@ def hyperparameter_tune_all_models(file):
         'class_weight':Categorical(['balanced',None]),
         'ccp_alpha':Real(0.0,0.01)#,
     }
-    rf_best_hyperparameters,_ = hyperparameter_tune(X,y,search_space,RandomForestClassifier())
+    rf_best_hyperparameters,_ = hyperparameter_tune_model(X,y,search_space,RandomForestClassifier())
 
     search_space ={
     'C':Real(0.01,10),
@@ -375,7 +375,7 @@ def hyperparameter_tune_all_models(file):
     'shrinking':Categorical([False,True]),
     'class_weight':Categorical(['balanced',None]),
     } 
-    svc_best_hyperparameters,_ = hyperparameter_tune(X,y,search_space,SVC(probability=True))
+    svc_best_hyperparameters,_ = hyperparameter_tune_model(X,y,search_space,SVC(probability=True))
     
     search_space ={
     'n_estimators':Integer( 10, 100),
@@ -390,7 +390,7 @@ def hyperparameter_tune_all_models(file):
     'reg_lambda':Real(0.0,10.0),
     'importance_type':Categorical(['gain','weight','cover','total_gain','total_cover'])
     }
-    xgb_best_hyperparameters,_ = hyperparameter_tune(X,y,search_space,XGBClassifier())
+    xgb_best_hyperparameters,_ = hyperparameter_tune_model(X,y,search_space,XGBClassifier())
     nn_best_hyperparameters = hyperparameter_tune_nn(X,y)
     params = [rf_best_hyperparameters,svc_best_hyperparameters,xgb_best_hyperparameters,nn_best_hyperparameters]
     # save the best model...
