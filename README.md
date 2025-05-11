@@ -5,11 +5,12 @@ To install, just use pip install -e .
 ```
 from hazdet.inference import inference
 from glob import glob
-file = 'bin/text.csv'
+filename = 'bin/text.csv'
 model_file = list(glob('*/*.sav'))[0]
 # We assume that text is in a column "text"    
 predictions = inference(file,model_file)
 ```
+**Output**: Pandas dataframe of file with additional prediction column labeled "hazard"
 # More details
 See docs/ for more details of how to predict hazards, train models, and information about data we store.
 
