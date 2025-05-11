@@ -428,7 +428,7 @@ def predict_model (model,model_params,X,y,ii):
     X_train, X_test, y_train, y_test = train_test_split(X, y,train_size=0.9, random_state=random_state)
     y_train = y_train[:,0].round().reshape(-1,1)
     # random seed
-    numpy.random.seed(ii*314159)
+    np.random.seed(ii*314159)
     boot_indices = np.random.randint(0,len(X_test),len(X_test))
     X_boot = X_test[boot_indices]
     y_boot = y_test[boot_indices]    
