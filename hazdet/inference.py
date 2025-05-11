@@ -5,7 +5,7 @@ import os
 from sentence_transformers import SentenceTransformer
 
 def read_any(file):
-    if file.endswith('.csv', 'tsv') :
+    if file.endswith('.csv') or file.endswith('.tsv') :
         df = pd.read_csv(file)
     elif file.endswith('.json'):
         df = pd.read_json(file)
@@ -30,7 +30,7 @@ def load_data(file,text_col='text'):
 
 def inference(file,model_file,text_col='text',sentence_tf= 'stsb-xlm-r-multilingual'):
     # if 
-    data = load_data(file,text_col)
+    data,text_col = load_data(file,text_col)
     if data is None or len(data) == 0:
         raise Exception('ERROR: data file is blank: ',file)
     if not os.path.exists(model_file):
@@ -57,15 +57,15 @@ def inference(file,model_file,text_col='text',sentence_tf= 'stsb-xlm-r-multiling
                 all_pred+=pred_prob
                 tweets = []
             except:
-                raise Exception('ERROR: one or more text could not be parsed for hazards. Look around index ',data.index.values[ii*num_tweets_parsed],'-',data.index.values[(ii+1)*num_tweets_parsed])
+                raise Exception('ERROR: one or more text could not be parsed for hazards. Look around index ',data.index.values[ii],'-',data.index.values[(ii+1)*num_tweets_parsed])
         # catching any leftovers
-        try:
-            embeddings = model.encode(tweets)
-            pred_prob = list(clf.predict_proba(embeddings)[:,1])
-            all_pred+=pred_prob
-            tweets = []
-        except:
-            raise Exception('ERROR: one or more text could not be parsed for hazards. Look around index ',data.index.values[ii*num_tweets_parsed],'-',data.index.values[(ii+1)*num_tweets_parsed])
+    try:
+        embeddings = model.encode(tweets)
+        pred_prob = list(clf.predict_proba(embeddings)[:,1])
+        all_pred+=pred_prob
+        tweets = []
+    except:
+        raise Exception('ERROR: one or more text could not be parsed for hazards. Look around index ',data.index.values[ii],'-',data.index.values[(ii+1)])
 
     data['hazard'] = all_pred
     return data

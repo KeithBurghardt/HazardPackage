@@ -1,8 +1,9 @@
-from hazdet import inference
+from hazdet.inference import inference
+from glob import glob
 def main():
-    file = ''
-    data = pd.read_csv(file)
-    predictions = inference(data)
+    file = 'test.csv'
+    model_file = list(glob('../*/*.sav'))[0]
+    predictions = inference(file,model_file)
     
 
 __init__():

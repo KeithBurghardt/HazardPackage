@@ -5,6 +5,7 @@ MANIFEST.in
 README.md
 pyproject.toml
 requirements.txt
+setup.cfg
 setup.py
 bin/example.py
 docs/documentation.txt
@@ -16,4 +17,5 @@ hazdet.egg-info/SOURCES.txt
 hazdet.egg-info/dependency_links.txt
 hazdet.egg-info/requires.txt
 hazdet.egg-info/top_level.txt
+hazdet.egg-info/zip-safe
 hazdet/test/__init__.py

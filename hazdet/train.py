@@ -29,7 +29,7 @@ from keras.metrics import AUC
 from xgboost import XGBClassifier
 
 
-def extract_qualtrics_data(file='Tweet annotation.csv': str):
+def extract_qualtrics_data(file='Tweet annotation.csv'):
     # make sure we only include annotators who completed full survey
     progress_pct = 100
     # find all data where humans completed the task and took > 3 minutes, 20 seconds (200 seconds)
@@ -105,7 +105,7 @@ def reshape_qualtrics_data(data,annotations):
                     lens.append(len(annotations[key]))
     return annotations
 
-def clean_qualtrics_data(file='Tweet annotation.csv': str):
+def clean_qualtrics_data(file='Tweet annotation.csv'):
     data,annotations = extract_qualtrics_data(file)
     annotations = reshape_qualtrics_data(data,annotations)
     annotations = pd.DataFrame(annotations)
@@ -113,7 +113,7 @@ def clean_qualtrics_data(file='Tweet annotation.csv': str):
     benefit_col = 'Does the tweet describe a benefit (something that provides resources, opportunities, or other good things to the author of the tweet or to others)?'
     return annotations,hazard_col,benefit_col
 
-def create_features(file='Tweet annotation.csv': str):
+def create_features(file='Tweet annotation.csv'):
     # extract resshaped data
     annotations,hazard_col,benefit_col = clean_qualtrics_data(file)
     text_haz_ben=annotations[['text',hazard_col,benefit_col]]
@@ -348,7 +348,7 @@ def hyperparameter_tune_nn(X,y):
                               max_time = max_time,
                               eps = tolerance)
 
-    nn_hyperparameters = [(c,v) for for c,v in zip(['lambtha','keep_prob','alpha','beta1','batch_size'],my_Bayes_opt.x_opt)]
+    nn_hyperparameters = [(c,v) for c,v in zip(['lambtha','keep_prob','alpha','beta1','batch_size'],my_Bayes_opt.x_opt)]
     return nn_hyperparameters
 
 def hyperparameter_tune_all_models(file):
@@ -462,7 +462,7 @@ def eval_best_model(X,y,params,num_evals = 50,eval_metric='roc_auc'):
     for model in ['NN','SVC','RF','XGB']:
         performance_metric_boot = []
         for ii in range(num_evals):
-            y_pred,y_boot = predict_model (model,model_params,X,y,ii) for ii in range(num_evals)
+            y_pred,y_boot = predict_model (model,model_params,X,y,ii) 
             if eval_metric ==  'roc_auc':
                 performance = roc_auc_score(y_boot, y_pred)
             elif eval_metric == 'f1':
@@ -479,7 +479,7 @@ def eval_best_model(X,y,params,num_evals = 50,eval_metric='roc_auc'):
     return best_model[0],performance
 
 
-def train_best_model(X,y,params)
+def train_best_model(X,y,params):
     # find the best model
     best_model,performance = eval_best_model(X,y,params,num_evals = 50,eval_metric='roc_auc')
     if best_model == 'NN':

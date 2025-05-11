@@ -1,3 +1,4 @@
+AUTHORS.md
 CHANGES.txt
 LICENSE.txt
 MANIFEST.in
@@ -11,7 +12,3 @@ Hazard_Detection.egg-info/requires.txt
 Hazard_Detection.egg-info/top_level.txt
 bin/example.py
 docs/documentation.txt
-hazdet/__init__.py
-hazdet/inference.py
-hazdet/train.py
-hazdet/test/__init__.py
