@@ -460,14 +460,14 @@ def eval_best_model(X,y,params,num_evals = 50,eval_metric='roc_auc'):
     rf_best_hyperparameters,svc_best_hyperparameters,xgb_best_hyperparameters,nn_best_hyperparameters = params
     # X_train, X_test, y_train, y_test = train_test_split(X, y,train_size=0.9, random_state=999)#42)
     # y_train = y_train[:,0].round().reshape(-1,1)
-
+    model_params = {'RF':rf_best_hyperparameters,'SVC':svc_best_hyperparameters,'XGB':xgb_best_hyperparameters,'NN':nn_best_hyperparameters}
     #metrics = {'NN_auc':[],'NN_f1':[],'RF_auc':[],'RF_f1':[],'SVM_auc':[],'SVM_f1':[],'XGB_auc':[],'XGB_f1':[],'gpt_auc':[],'gpt_f1':[],'base_f1':[],'gpt_auc':[],'gpt_f1':[],'gpt_soc_auc':[],'gpt_soc_f1':[],'gpt_lib_auc':[],'gpt_lib_f1':[],'gpt4_auc':[],'gpt4_f1':[]}
     best_model = ['',0,0]
     performance = {}
     for model in ['NN','SVC','RF','XGB']:
         performance_metric_boot = []
         for ii in range(num_evals):
-            y_pred,y_boot = predict_model (model,model_params,X,y,ii) 
+            y_pred,y_boot = predict_model (model,model_params[model],X,y,ii) 
             if eval_metric ==  'roc_auc':
                 performance = roc_auc_score(y_boot, y_pred)
             elif eval_metric == 'f1':
@@ -485,24 +485,27 @@ def eval_best_model(X,y,params,num_evals = 50,eval_metric='roc_auc'):
 
 
 def train_best_model(X,y,params):
+    rf_best_hyperparameters,svc_best_hyperparameters,xgb_best_hyperparameters,nn_best_hyperparameters = params
+    model_params = {'RF':rf_best_hyperparameters,'SVC':svc_best_hyperparameters,'XGB':xgb_best_hyperparameters,'NN':nn_best_hyperparameters}
+
     # find the best model
     best_model,performance = eval_best_model(X,y,params,num_evals = 50,eval_metric='roc_auc')
     if best_model == 'NN':
-        clf = train_nn(model_params,X, y)
+        clf = train_nn(model_params[best_model],X, y)
         y_pred = clf.predict(X_boot)
             
     elif best_model == 'RF':
-        kwargs = {key:value for key,value in model_params.items()}
+        kwargs = {key:value for key,value in model_params[best_model].items()}
         clf = RandomForestClassifier(**kwargs)
         clf.fit(X, y)
     
     elif best_model == 'SVC':
-        kwargs = {key:value for key,value in svc_best_hyperparameters.items()}
+        kwargs = {key:value for key,value in model_params[best_model].items()}
         kwargs['probability'] = True
         clf = SVC(**kwargs)
         clf.fit(X, y)
     elif best_model == 'XGB':
-        kwargs = {key:value for key,value in xgb2_best_hyperparameters.items()}
+        kwargs = {key:value for key,value in model_params[best_model].items()}
         clf = XGBClassifier(**kwargs)
         clf.fit(X, y)
     if best_model == 'NN':
