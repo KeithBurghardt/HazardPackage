@@ -443,13 +443,13 @@ def predict_model (model,model_params,X,y,ii):
         y_pred = clf.predict_proba(X_boot)[:,1]
 
     elif model == 'SVC':
-        kwargs = {key:value for key,value in svc_best_hyperparameters.items()}
+        kwargs = {key:value for key,value in model_params.items()}
         kwargs['probability'] = True
         clf = SVC(**kwargs)
         clf.fit(X_train, y_train)
         y_pred = clf.predict_proba(X_boot)[:,1]
     elif model == 'XGB':
-        kwargs = {key:value for key,value in xgb2_best_hyperparameters.items()}
+        kwargs = {key:value for key,value in model_params.items()}
         clf = XGBClassifier(**kwargs)
         clf.fit(X_train, y_train)
         y_pred = clf.predict_proba(X_boot)[:,1]
