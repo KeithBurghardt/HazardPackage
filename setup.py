@@ -16,7 +16,7 @@ setup(
     "numpy >= 1.17",
     "python-dateutil >= 2.8.2",
     "pytz >= 2020.1",
-    "sklearn==1.2.2",
+    "scikit-learn==1.2.2",
     "scipy>=1.10",
     "joblib >= 1.0",
     "sentence_transformers==2.2.2",
