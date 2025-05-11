@@ -273,15 +273,18 @@ def train_model(network, train_data, labels, batch_size, epochs,
                         shuffle=shuffle)
     return train
 
-def object_function(x):
+def object_function(paramsData):
         #Function that set hyperparameters of a keras network:
-        #Args: X is a vector conating the parameter to optimized and trained
+        #Args: paramsData is a vector conating the parameter to optimized and trained
         #    lambtha is the L2 regularization parameter
         #    keep_prob is the probability that a node will be kept for dropout
         #    alpha is the learning rate in Adam optimizer
         #    beta1 is the first Adam optimization parameter
         #    batch_size is the size of the batch used for mini-batch  gradient
         #    descent
+        #    data are the training and validation data (including ground truth labels)
+        x,data = paramsData
+        X_train,y_train = data
 
         #Returns the loss of the model
 
@@ -298,8 +301,6 @@ def object_function(x):
         alpha = x[:, 2]
         beta1 = x[:, 3]
         batch_size = x[:, 4]
-
-
 
         # Building the model using Keras library
         network = build_model(768, [256, 256, 1], ['relu', 'relu', 'softmax'],
@@ -330,15 +331,17 @@ def hyperparameter_tune_nn(X,y):
     X_train, X_test, y_train, y_test = train_test_split(X, y,train_size=0.9, random_state=42)
     y_train = y_train[:,0].round().reshape(-1,1)
     y_test = y_test[:,0].round().reshape(-1,1)
-
+    
+    data = [X_train,y_train]
     # Setting the bounds of network parameter for the bayeyias optimizatio
-    bounds = [{'name': 'lambtha', 'type': 'continuous','domain': (0.00005, 0.005)},
+    bounds = [[{'name': 'lambtha', 'type': 'continuous','domain': (0.00005, 0.005)},
             {'name': 'keep_prob', 'type': 'continuous','domain': (0.05, 0.95)},
             {'name': 'alpha', 'type': 'continuous','domain': (0.0001, 0.005)},
             {'name': 'beta1', 'type': 'continuous', 'domain': (0.9, 0.999)},
-            {'name': 'batch_size', 'type': 'discrete', 'domain': (32, 128)}]
+            {'name': 'batch_size', 'type': 'discrete', 'domain': (32, 128)}],data]
 
     # Creating the GPyOpt method using Bayesian Optimizatio
+    
     my_Bayes_opt = GPyOpt.methods.BayesianOptimization(object_function,
                                                    domain=bounds)
 
