@@ -6,9 +6,9 @@ To install, just use pip install -e .
 from hazdet.inference import inference
 from glob import glob
 filename = 'bin/text.csv'
-model_file = list(glob('*/*.sav'))[0]
+model_filename = list(glob('*/*.sav'))[0]
 # We assume that text is in a column "text"    
-predictions = inference(file,model_file)
+predictions = inference(file,model_filename)
 ```
 **Output**: Pandas dataframe of file with additional prediction column labeled "hazard"
 # More details
