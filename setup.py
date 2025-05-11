@@ -19,7 +19,7 @@ setup(
     "scikit-learn==1.2.2",
     "scipy>=1.10",
     "joblib >= 1.0",
-    "sentence_transformers==2.2.2",
+    "sentence-transformers==2.2.2",
     "transformers>=4.32.0,<5.0.0",
     "tqdm",
     "torch>=1.11.0",
