@@ -29,7 +29,7 @@ from tensorflow.keras.layers import Dense, Dropout, BatchNormalization, LeakyReL
 from tensorflow.keras.optimizers import Adam
 from keras.metrics import AUC
 from xgboost import XGBClassifier
-
+import GPyOpt
 
 def extract_qualtrics_data(file='Tweet annotation.csv'):
     # make sure we only include annotators who completed full survey
