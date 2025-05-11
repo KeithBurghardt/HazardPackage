@@ -15,7 +15,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_auc_score,f1_score
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
-
+import skopt
+from skopt.space import Real, Integer,Categorical
+from skopt import BayesSearchCV
 import demoji
 from sentence_transformers import SentenceTransformer
 import tensorflow as tf
@@ -156,9 +158,6 @@ def create_features(file='Tweet annotation.csv'):
     return X,y
 
 def hyperparameter_tune_model(X,y,search_space,model):
-    import skopt
-    from skopt.space import Real, Integer,Categorical
-    from skopt import BayesSearchCV
     X_train, X_test, y_train, y_test = train_test_split(X, y,train_size=0.9, random_state=42)
     y_train = y_train[:,0].round().reshape(-1,1)
     y_test = y_test[:,0].round().reshape(-1,1)
@@ -510,7 +509,6 @@ def train_best_model(X,y,params):
         return
 
     # otherwise...
-    import pickle as pk
     filename = 'finalized_model_'+best_model+'.sav'
     pk.dump(clf, open(filename, 'wb'))
     return
