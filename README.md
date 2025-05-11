@@ -1,7 +1,9 @@
-# How to install
+# AI model to detect hazard information in text
+
+## How to install
 To install, just use pip install -e .   
 
-# Quick start
+## Quick start
 ```
 from hazdet.inference import inference
 from glob import glob
@@ -11,10 +13,10 @@ model_filename = list(glob('*/*.sav'))[0]
 predictions = inference(file,model_filename)
 ```
 **Output**: Pandas dataframe of file with additional prediction column labeled "hazard"
-# More details
+## More details
 See docs/ for more details of how to predict hazards, train models, and information about data we store.
 
-# How to train your own model
+## How to train your own model
 We offer raw data, and data collection code in ground_truth_data/. 
 
 
