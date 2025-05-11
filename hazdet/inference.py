@@ -11,7 +11,7 @@ def read_any(file):
         df = pd.read_json(file)
     elif file.endswith('.xml'):
         df = pd.read_xml(file)
-    elif file.endswith('.xls','xlsx'):
+    elif file.endswith('.xls') or file.endswith('.xlsx'):
         df = pd.read_excel(file)
     elif file.endswith('.hdf'):
         df = pd.read_hdf(file)           
