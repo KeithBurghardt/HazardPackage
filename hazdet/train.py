@@ -514,7 +514,7 @@ def eval_best_model(X,y,params,num_evals = 50,eval_metric='roc_auc'):
     # y_train = y_train[:,0].round().reshape(-1,1)
     model_params = {'RF':rf_best_hyperparameters,'SVC':svc_best_hyperparameters,'XGB':xgb_best_hyperparameters,'NN':nn_best_hyperparameters}
     #metrics = {'NN_auc':[],'NN_f1':[],'RF_auc':[],'RF_f1':[],'SVM_auc':[],'SVM_f1':[],'XGB_auc':[],'XGB_f1':[],'gpt_auc':[],'gpt_f1':[],'base_f1':[],'gpt_auc':[],'gpt_f1':[],'gpt_soc_auc':[],'gpt_soc_f1':[],'gpt_lib_auc':[],'gpt_lib_f1':[],'gpt4_auc':[],'gpt4_f1':[]}
-    best_model = ['',0,0]
+    best_model_performance = 0
     model_performance = {}
     for model in ['NN','SVC','RF','XGB']:
         print('Calculating performance of ',model)
@@ -531,10 +531,10 @@ def eval_best_model(X,y,params,num_evals = 50,eval_metric='roc_auc'):
         mean_performance = np.mean(performance_metric_boot)
         std_performance = np.std(performance_metric_boot)
         model_performance[model] = [mean_performance,std_performance]
-        if mean_performance > best_model[1]:
-            best_model[0] = model
-
-    return best_model[0],model_performance
+        if mean_performance > best_model_performance:
+            best_model = model
+            best_model_performance = mean_performance
+    return best_model,model_performance
 
 
 def train_best_model(X,y,params):
