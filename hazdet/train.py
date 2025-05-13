@@ -478,15 +478,16 @@ def predict_model (model,model_params,X,y,ii):
     random_state = 999
     X_train, X_test, y_train, y_test = train_test_split(X, y,train_size=0.9, random_state=random_state)
     y_train = y_train[:,0].round().reshape(-1,1)
+    y_test = y_test[:,0].round().reshape(-1,1)
     # random seed
     np.random.seed(ii*314159)
     boot_indices = np.random.randint(0,len(X_test),len(X_test))
+
     X_boot = X_test[boot_indices]
     y_boot = y_test[boot_indices]    
     if model == 'NN':
         clf = train_nn(model_params,X_train, y_train)
         y_pred = clf.predict(X_boot)
-
     elif model == 'RF':
         kwargs = {key:value for key,value in model_params.items()}
         clf = RandomForestClassifier(**kwargs)
@@ -516,6 +517,7 @@ def eval_best_model(X,y,params,num_evals = 50,eval_metric='roc_auc'):
     best_model = ['',0,0]
     model_performance = {}
     for model in ['NN','SVC','RF','XGB']:
+        print('Calculating performance of ',model)
         performance_metric_boot = []
         for ii in range(num_evals):
             y_pred,y_boot = predict_model (model,model_params[model],X,y,ii) 
@@ -541,6 +543,9 @@ def train_best_model(X,y,params):
 
     # find the best model
     best_model,performance = eval_best_model(X,y,params,num_evals = 50,eval_metric='roc_auc')
+    print(performance)
+    filename = 'finalized_performance.sav'
+    pk.dump(performance, open(filename, 'wb'))
     if best_model == 'NN':
         clf = train_nn(model_params[best_model],X, y)
         y_pred = clf.predict(X_boot)
