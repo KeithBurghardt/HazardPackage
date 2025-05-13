@@ -281,11 +281,11 @@ def hyperparameter_tune_nn(X,y):
     
     data = [X_train,y_train]
     # Setting the bounds of network parameter for the bayeyias optimizatio
-    bounds = [[{'name': 'lambtha', 'type': 'continuous','domain': (0.00005, 0.005)},
+    bounds = [{'name': 'lambtha', 'type': 'continuous','domain': (0.00005, 0.005)},
             {'name': 'keep_prob', 'type': 'continuous','domain': (0.05, 0.95)},
             {'name': 'alpha', 'type': 'continuous','domain': (0.0001, 0.005)},
             {'name': 'beta1', 'type': 'continuous', 'domain': (0.9, 0.999)},
-            {'name': 'batch_size', 'type': 'discrete', 'domain': (32, 128)}],data]
+            {'name': 'batch_size', 'type': 'discrete', 'domain': (32, 128)}]
 
     # Creating the GPyOpt method using Bayesian Optimizatio
     def object_function(x):
