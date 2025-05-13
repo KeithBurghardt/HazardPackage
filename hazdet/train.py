@@ -175,7 +175,6 @@ def hyperparameter_tune_model(X,y,search_space,model):
     best_score = optimizer.best_score_
     return rf_best_hyperparameters,best_score
 
-
 def build_model(nx, layers, activations, lambtha, keep_prob):
 
     #Function that builds a neural network with the Keras library
@@ -274,6 +273,55 @@ def train_model(network, train_data, labels, batch_size, epochs,
     return train
 
 
+def return_trained_model(network, train_data, labels, batch_size, epochs,
+                validation_data=None, early_stopping=False,
+                patience=0, learning_rate_decay=False,
+                alpha=0.1, decay_rate=1, filepath=None,
+                verbose=False, shuffle=False):
+                                
+    #Function That trains a model using mini-batch gradient descent
+    #Args:
+    #network is the model to train
+    #data is a numpy.ndarray of shape (m, nx) containing the input data
+    #labels is a one-hot numpy.ndarray of shape (m, classes) containing
+    #the labels of data
+    #batch_size is the size of the batch used for mini-batch gradient descent
+    #epochs is the number of passes through data for mini-batch gradient descent
+    #validation_data is the data to validate the model with, if not None
+    
+    def learning_rate_decay(epoch):  
+        #"""Function tha uses the learning rate"""
+        alpha_0 = alpha / (1 + (decay_rate * epoch))
+        return alpha_0
+    
+    callbacks = []
+    if validation_data:
+        if early_stopping:
+            early_stop = EarlyStopping(patience=patience)
+            callbacks.append(early_stop)
+    
+        if learning_rate_decay:
+            decay = keras.callbacks.LearningRateScheduler(learning_rate_decay,
+                                                      verbose=verbose)
+            callbacks.append(decay)
+                
+                
+    if filepath:
+        print(filepath)
+        save = keras.callbacks.ModelCheckpoint(filepath, save_best_only=True)
+        callbacks.append(save)
+    
+    train = network.fit(x=train_data,
+                        y=labels,
+                        batch_size=int(batch_size),
+                        epochs=epochs,
+                        validation_data=validation_data,
+                        callbacks=callbacks,
+                        verbose=False,
+                        shuffle=shuffle)
+    return network
+
+
 def hyperparameter_tune_nn(X,y):
     X_train, X_test, y_train, y_test = train_test_split(X, y,train_size=0.9, random_state=42)
     y_train = y_train[:,0].round().reshape(-1,1)
@@ -315,9 +363,9 @@ def hyperparameter_tune_nn(X,y):
         beta1 = x[:, 3]
         batch_size = x[:, 4]
 
+        # lambtha, keep_prob, alpha, beta1, batch_size
         # Building the model using Keras library
-        network = build_model(768, [256, 256, 1], ['relu', 'relu', 'softmax'],
-                              lambtha, keep_prob)
+        network = build_model(768, [256, 256, 1], ['relu', 'relu', 'softmax'],lambtha, keep_prob)
 
         # Optimizing the model using adam optimizer
         beta2 = 0.999
@@ -392,7 +440,7 @@ def hyperparameter_tune_all_models(file):
     'importance_type':Categorical(['gain','weight','cover','total_gain','total_cover'])
     }
     xgb_best_hyperparameters,_ = hyperparameter_tune_model(X,y,search_space,XGBClassifier())
-    nn_best_hyperparameters = hyperparameter_tune_nn(X,y)
+    nn_best_hyperparameters = [v[1] for v in hyperparameter_tune_nn(X,y)]
     params = [rf_best_hyperparameters,svc_best_hyperparameters,xgb_best_hyperparameters,nn_best_hyperparameters]
     # save the best model...
     train_best_model(X,y,params)
@@ -401,26 +449,29 @@ def hyperparameter_tune_all_models(file):
 def train_nn(nn_best_hyperparameters,X_train, y_train,embedding_dim=768):
     embedding_normalizer = Normalization(input_shape=[embedding_dim,], axis=None)
     embedding_normalizer.adapt(X_train)
-    dropout_rate,relu_alpha,l2_lambda,num_layers,batch_size = nn_best_hyperparameters
-    num_layers = int(num_layers)
-    batch_size = int(batch_size)
-    def modeling(l2_lambda, relu_alpha, dropout_rate,num_layers):
-        prev_dim = int(embedding_dim)
-        model = Sequential([embedding_normalizer])
-        for i in range(num_layers):
-            if prev_dim <=2:
-                break
-            model.add(Dense(int(prev_dim/3),kernel_regularizer=regularizers.l2(l2_lambda)))
-            model.add(LeakyReLU(relu_alpha)) #alpha=negative coefficient for the slope
-            model.add(BatchNormalization())
-            model.add(Dropout(dropout_rate))
-            prev_dim = int(prev_dim/3)
-        model.add(Dense(1, activation=keras.activations.sigmoid))
-        model.compile(loss='binary_crossentropy',optimizer='adam',metrics=['binary_crossentropy',AUC()])
-        return model
-    es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=5) #min_delta=1 #baseline=26
-    m = modeling(l2_lambda, relu_alpha, dropout_rate,num_layers)
-    history = m.fit(X_train, y_train, validation_split=0.1, epochs=100, batch_size=32, verbose=2,callbacks=[es]) #callbacks=[es])
+    lambtha, keep_prob, alpha, beta1, batch_size = nn_best_hyperparameters
+    # Building the model using Keras library
+    print(nn_best_hyperparameters)
+    print(lambtha)                         
+    # Optimizing the model using adam optimizer
+    beta2 = 0.999
+    network = build_model(768, [256, 256, 1], ['relu', 'relu', 'softmax'],lambtha, keep_prob)
+    optimize_model(network, alpha, beta1, beta2)
+    
+    # Training the model using early stopping and saving the best model
+    epochs = 100
+    random_indices = list(range(len(X_train)))
+    random.shuffle(random_indices)
+    train_ind = random_indices[:int(0.8*len(X_train))]
+    valid_ind = random_indices[int(0.8*len(X_train)):]
+    X_train_i = X_train[train_ind]
+    Y_train_i = y_train[train_ind]
+    X_valid = X_train[valid_ind]
+    Y_valid = y_train[valid_ind]
+    m = return_trained_model(network, X_train_i, Y_train_i, batch_size, epochs,
+                              validation_data=(X_valid, Y_valid),
+                              early_stopping=True, patience=3,
+                              learning_rate_decay=True)
     return m
 
 def predict_model (model,model_params,X,y,ii):
@@ -463,7 +514,7 @@ def eval_best_model(X,y,params,num_evals = 50,eval_metric='roc_auc'):
     model_params = {'RF':rf_best_hyperparameters,'SVC':svc_best_hyperparameters,'XGB':xgb_best_hyperparameters,'NN':nn_best_hyperparameters}
     #metrics = {'NN_auc':[],'NN_f1':[],'RF_auc':[],'RF_f1':[],'SVM_auc':[],'SVM_f1':[],'XGB_auc':[],'XGB_f1':[],'gpt_auc':[],'gpt_f1':[],'base_f1':[],'gpt_auc':[],'gpt_f1':[],'gpt_soc_auc':[],'gpt_soc_f1':[],'gpt_lib_auc':[],'gpt_lib_f1':[],'gpt4_auc':[],'gpt4_f1':[]}
     best_model = ['',0,0]
-    performance = {}
+    model_performance = {}
     for model in ['NN','SVC','RF','XGB']:
         performance_metric_boot = []
         for ii in range(num_evals):
@@ -477,11 +528,11 @@ def eval_best_model(X,y,params,num_evals = 50,eval_metric='roc_auc'):
             performance_metric_boot.append(performance)
         mean_performance = np.mean(performance_metric_boot)
         std_performance = np.std(performance_metric_boot)
-        performance[model] = [mean_performance,std_performance]
+        model_performance[model] = [mean_performance,std_performance]
         if mean_performance > best_model[1]:
             best_model[0] = model
 
-    return best_model[0],performance
+    return best_model[0],model_performance
 
 
 def train_best_model(X,y,params):
