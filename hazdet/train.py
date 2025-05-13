@@ -540,7 +540,7 @@ def eval_best_model(X,y,params,num_evals = 50,eval_metric='roc_auc'):
 def train_best_model(X,y,params):
     rf_best_hyperparameters,svc_best_hyperparameters,xgb_best_hyperparameters,nn_best_hyperparameters = params
     model_params = {'RF':rf_best_hyperparameters,'SVC':svc_best_hyperparameters,'XGB':xgb_best_hyperparameters,'NN':nn_best_hyperparameters}
-
+    y = y[:,0].round().reshape(-1,1)
     # find the best model
     best_model,performance = eval_best_model(X,y,params,num_evals = 50,eval_metric='roc_auc')
     print(performance)
