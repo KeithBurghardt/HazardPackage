@@ -8,12 +8,12 @@ predictions = inference(filename,model_filename,text_col='text',sentence_tf= 'st
 ```
 ## Parameters
 - **filename**: file name or path to file name<br/> 
-    The filename should end in the following: { '.csv' (CSV file),'.tsv' (TSV file),'.json' (JSON file),'.xml' (XML file), '.xls' or 'xlsx' (Excel file), '.hdf' (HDF file), '.sql' (SQL data).
-- **model_filename**: path to the model file
-    The current file is located in hazdet/finalized_model_SVM.sav, but this can be modified with a new model. We assume this can be opened with pickle.
+&emsp;The filename should end in the following: { '.csv' (CSV file),'.tsv' (TSV file),'.json' (JSON file),'.xml' (XML file), '.xls' or 'xlsx' (Excel file), '.hdf' (HDF file), '.sql' (SQL data).
+- **model_filename**: path to the model file<br/>
+&emsp;The current file is located in hazdet/finalized_model_SVM.sav, but this can be modified with a new model. We assume this can be opened with pickle.
 - **text_col**: text column name (_default: 'text'_)
-- **sentence_tf**: name of sentence transformer that create post representations.
-    The name should be anything that can be run via SentenceTransformer(sentence_tf). Up-to-date pre-trained models are listed here: https://www.sbert.net/docs/sentence_transformer/pretrained_models.html.
+- **sentence_tf**: name of sentence transformer that create post representations.<br/>
+&emsp;The name should be anything that can be run via SentenceTransformer(sentence_tf). Up-to-date pre-trained models are listed here: https://www.sbert.net/docs/sentence_transformer/pretrained_models.html.
 
 ## Output
 Pandas dataframe
