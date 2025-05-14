@@ -8,7 +8,7 @@ predictions = inference(filename,model_filename,text_col='text',sentence_tf= 'st
 ```
 ## Parameters
 - **filename**: file name or path to file <br/> 
-&emsp;The filename should end in the following: { '.csv' (CSV file),'.tsv' (TSV file),'.json' (JSON file),'.xml' (XML file), '.xls' or 'xlsx' (Excel file), '.hdf' (HDF file), '.sql' (SQL data).
+&emsp;The filename should end in the following: { '.csv' (CSV file),'.tsv' (TSV file),'.json' (JSON file),'.xml' (XML file), '.xls' or 'xlsx' (Excel file), '.hdf' (HDF file), or '.sql' (SQL data).
 - **model_filename**: path to the model file<br/>
 &emsp;The current file is located in hazdet/finalized_model_SVM.sav, but this can be modified with a new model. We assume this can be opened with pickle.
 - **text_col**: text column name (_default: 'text'_)
