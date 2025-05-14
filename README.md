@@ -5,7 +5,9 @@ To install:
 ```
 git clone git@github.com:username/repo.git #(anonymized for review purposes)
 cd repo #(anonymized for review purposes)
-pip install -e .   
+python -m venv newenv
+source newenv/bin/activate
+pip install -e . # installs all required libraries
 ```
 ## Quick start
 ```
