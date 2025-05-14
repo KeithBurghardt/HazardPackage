@@ -1,7 +1,11 @@
 # AI model to detect hazard information in text
+This is a command line interface (CLI) that converts te
 
 ## How to install
-To install:
+Requirements: Python 3.12, pip (e.g., pip-25.1.1 works)
+- Download the repo via git clone, or you can download it and unzip it
+- Create a new Python environment via venv (see below)
+- Install required libraries via pip install -e .
 ```
 git clone git@github.com:username/repo.git #(anonymized for review purposes)
 cd repo #(anonymized for review purposes)
@@ -15,10 +19,14 @@ from hazdet.inference import inference
 from glob import glob
 filename = 'bin/text.csv'
 model_filename = list(glob('*/*.sav'))[0]
-# We assume that text is in a column "text"    
-predictions = inference(file,model_filename)
+# We assume that text is in a column "text"
+text_col = 'text'
+# predictions is a Pandas dataframe
+predictions = inference(file,model_filename,text_col=text_col)
+# optional: save just the data, including hazard confidence
+predictions.to_csv('predictions.csv',index=False)
 ```
-**Output**: Pandas dataframe of file with additional prediction column labeled "hazard"
+**Output of inference()**: Pandas dataframe of file with additional prediction column labeled "hazard"
 ## More details
 See docs/ for more details of how to predict hazards, train models, and information about data we store.
 
