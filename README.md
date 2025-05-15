@@ -1,4 +1,4 @@
-# AI model to detect hazard information in text
+# Posts of Peril: Detecting Hazards in Text
 <p align="center">
 <img src="https://raw.githubusercontent.com/KeithBurghardt/HazardPackage/refs/heads/main/images/AIHazardDetectionIcon.jpg?token=GHSAT0AAAAAADD4337YK2UCXTSJDEWAKN722BFILZQ" width=50% height=50%>
 </p>
