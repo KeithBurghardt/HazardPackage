@@ -1,8 +1,7 @@
 # AI model to detect hazard information in text
-This is a command line interface (CLI) that determines hazard confidence of a given text.
-
-
 <img src="https://raw.githubusercontent.com/KeithBurghardt/HazardPackage/refs/heads/main/images/AIHazardDetectionIcon.jpg?token=GHSAT0AAAAAADD4337YK2UCXTSJDEWAKN722BFILZQ" width=50% height=50%>
+
+This is a command line interface (CLI) that determines hazard confidence of a given text.
 
 ## How to install
 Requirements: Python 3.12, pip (e.g., pip-25.1.1 works)
