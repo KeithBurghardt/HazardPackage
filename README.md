@@ -1,6 +1,6 @@
 # Posts of Peril: Detecting Hazards in Text
 <p align="center">
-<img src="https://raw.githubusercontent.com/KeithBurghardt/HazardPackage/refs/heads/main/images/AIHazardDetectionIcon.jpg?token=GHSAT0AAAAAADD4337YK2UCXTSJDEWAKN722BFILZQ" width=50% height=50%>
+<img src="images/AIHazardDetectionIcon.jpg?token=GHSAT0AAAAAADD4337YK2UCXTSJDEWAKN722BFILZQ" width=50% height=50%>
 </p>
 
 This is a command line interface (CLI) that determines hazard confidence of a given text.
