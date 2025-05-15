@@ -1,6 +1,7 @@
 # AI model to detect hazard information in text
-This is a command line interface (CLI) that converts te
+This is a command line interface (CLI) that determines hazard confidence of a given text.
 
+![Hazard detection](images/AIHazardDetectionIcon.png)
 ## How to install
 Requirements: Python 3.12, pip (e.g., pip-25.1.1 works)
 - Download the repo via git clone, or you can download it and unzip it
@@ -22,15 +23,17 @@ model_filename = 'hazdet/finalized_model_SVM.sav'
 text_col = 'text'
 # predictions is a Pandas dataframe
 predictions = inference(file,model_filename,text_col=text_col)
+# if you want to label text as hazard or not, rather than output confidences:
+predictions['hazard'] = predictions['hazard'].to_numpy().round()
 # optional: save just the data, including hazard confidence
 predictions.to_csv('predictions.csv',index=False)
 ```
 **Output of inference()**: Pandas dataframe of file with additional prediction column labeled "hazard"
 
-Inference and training examples can be found in `bin/`
+[Inference](bin/quickstart_inference.py) and [training](bin/quickstart_train.py) examples can be found in `bin/`
 
-## More details
-See `docs/` for more details of how to predict hazards, train models, and information about data we store.
+## More details 
+See the [documentation](docs/documentation.md) for more details of how to predict hazards, train models, and information about data we store.
 
 ## How to train your own model
 We offer raw data, and data collection code in `ground_truth_data/`. 
