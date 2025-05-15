@@ -28,7 +28,7 @@ text_col = 'text'
 predictions = inference(file,model_filename,text_col=text_col)
 # if you want to label text as hazard or not, rather than output confidences:
 predictions['hazard'] = predictions['hazard'].to_numpy().round()
-# optional: save just the data, including hazard confidence
+# optional: save the data, including hazard labels
 predictions.to_csv('predictions.csv',index=False)
 ```
 **Output of inference()**: Pandas dataframe of file with additional prediction column labeled "hazard"
