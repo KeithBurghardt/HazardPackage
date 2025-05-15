@@ -42,7 +42,7 @@ See the [documentation](docs/documentation.md) for more details about how to pre
 We offer raw data, and data collection code in `ground_truth_data/`. 
 
 ## Citation
-Please cite our work when using it in a paper or document:
+Please cite our work!
 ```
 @inproceedings{AnonymousHazards2025,
 Title={Posts of Peril: Detecting Hazards in Text},
