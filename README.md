@@ -35,8 +35,8 @@ predictions.to_csv('predictions.csv',index=False)
 
 [Inference](bin/quickstart_inference.py) and [training](bin/quickstart_train.py) examples can be found in `bin/`
 
-## More details 
-See the [documentation](docs/documentation.md) for more details of how to predict hazards, train models, and information about data we store.
+## Documentation
+See the [documentation](docs/documentation.md) for more details about how to predict hazards, how to train hazard detection models, and to learn about our training data.
 
 ## How to train your own model
 We offer raw data, and data collection code in `ground_truth_data/`. 
