@@ -2,7 +2,7 @@
 This is a command line interface (CLI) that determines hazard confidence of a given text.
 
 
-<img src="[https://user-images.githubusercontent.com/16319829/81180309-2b51f000-8fee-11ea-8a78-ddfe8c3412a7.png](https://raw.githubusercontent.com/KeithBurghardt/HazardPackage/refs/heads/main/images/AIHazardDetectionIcon.jpg)" width=50% height=50%>
+<img src="https://raw.githubusercontent.com/KeithBurghardt/HazardPackage/refs/heads/main/images/AIHazardDetectionIcon.jpg" width=50% height=50%>
 
 ## How to install
 Requirements: Python 3.12, pip (e.g., pip-25.1.1 works)
