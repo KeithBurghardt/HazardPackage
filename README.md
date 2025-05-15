@@ -16,9 +16,8 @@ pip install -e . # installs all required libraries
 ## Quick start
 ```
 from hazdet.inference import inference
-from glob import glob
 filename = 'bin/text.csv'
-model_filename = list(glob('*/*.sav'))[0]
+model_filename = 'hazdet/finalized_model_SVM.sav'
 # We assume that text is in a column "text"
 text_col = 'text'
 # predictions is a Pandas dataframe
@@ -27,11 +26,14 @@ predictions = inference(file,model_filename,text_col=text_col)
 predictions.to_csv('predictions.csv',index=False)
 ```
 **Output of inference()**: Pandas dataframe of file with additional prediction column labeled "hazard"
+
+Inference and training examples can be found in `bin/`
+
 ## More details
-See docs/ for more details of how to predict hazards, train models, and information about data we store.
+See `docs/` for more details of how to predict hazards, train models, and information about data we store.
 
 ## How to train your own model
-We offer raw data, and data collection code in ground_truth_data/. 
+We offer raw data, and data collection code in `ground_truth_data/`. 
 
 
 
