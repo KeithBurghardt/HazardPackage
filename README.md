@@ -3,7 +3,7 @@
 <img src="images/AIHazardDetectionIcon.jpg?token=GHSAT0AAAAAADD4337YK2UCXTSJDEWAKN722BFILZQ" width=50% height=50%>
 </p>
 
-This is a command line interface (CLI) that determines hazard confidence of a given text.
+This is a command line interface (CLI) that determines hazard confidence of social media posts.
 
 ## How to install
 Requirements: Python 3.12, pip (e.g., pip-25.1.1 works)
@@ -33,7 +33,7 @@ predictions.to_csv('predictions.csv',index=False)
 ```
 **Output of inference()**: Pandas dataframe of file with additional prediction column labeled "hazard"
 
-[Inference](bin/quickstart_inference.py) and [training](bin/quickstart_train.py) examples can be found in `bin/`
+[Inference](bin/quickstart_inference.py) and [training](bin/quickstart_train.py) examples can be found in `bin/`. Depending on your computer, the model can be trained on CPU cores, e.g, a M3 Pro chip. If analyzing millions of posts, we recommend using a GPU.
 
 ## Documentation
 See the [documentation](docs/documentation.md) for more details about how to predict hazards, how to train hazard detection models, and to learn about our training data.
