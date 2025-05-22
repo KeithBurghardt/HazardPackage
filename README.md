@@ -2,6 +2,7 @@
 <p align="center">
 <img src="images/AIHazardDetectionIcon.jpg?token=GHSAT0AAAAAADD4337YK2UCXTSJDEWAKN722BFILZQ" width=50% height=50%>
 </p>
+
 # Posts of Peril: Detecting Hazards in Text
 This is a command line interface (CLI) that determines hazard confidence of social media posts.
 
