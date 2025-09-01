@@ -1,6 +1,8 @@
 ## Coordination
 This code is adapted and cleaned from https://github.com/ValeriaPante/coordinatedActivity/
 
+To run, add filename into find_coord.py
+
 A number of issues were addressed in this new code:
 - Some variables were referenced in functions but were missing in the function parameters
 - Code was inconsistent when refering to names of data variables (e.g., user IDs, tweet IDs)
