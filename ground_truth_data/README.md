@@ -5,6 +5,7 @@
 - AnonymousAnnotations.csv: annotations for each post by each annotator. We include an anonymized annotator ID along with basic demographics to determine whether demographics affect what is annotated as a hazard. We also include severe hazards and benefit annotations, which we do not analyze in our study.
 - TweetGT.csv: the mean of annotator labels for each post based on AnonymousAnnotations.csv. We also include severe hazards and benefit annotations, which we do not analyze in our study.
 - datasheet-for-hazard-dataset.md: The datasheet (from Datasheets for Datasets by Gebru et al., 2021) for the X posts shown in  AnonymousAnnotations.csv and TweetGT.csv.
+- AnnotationsOfTwitterDatasets/: This directory contains all annotations by each annotator for the Israel-Hamas and 2022 French datasets (filenames reflect each respective dataset). Unlike prior annotations, these annotations are made by 3 volunteer annotators (2 in undergrad and one recently graduated) who label text is "-1" if we lack information to correctly annotate the text and "1/2" if it is ambiguous whether text is hazard or not.
 
 ## References:
 
