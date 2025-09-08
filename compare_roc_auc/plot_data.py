@@ -9,8 +9,8 @@ from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import  train_test_split
 
 GT_labels = pd.read_csv('TweetGT.csv')
-text_train, text_test = train_test_split(GT_labels['text'].tolist(),train_size=0.9, random_state=42)
-set_text_train = set(text_train)
+_, text_test = train_test_split(GT_labels['text'].tolist(),train_size=0.9, random_state=42)
+set_text_test = set(text_test)
 
 text2hazard = {t:h for t,h in GT_labels[['text','hazard']].values}
 mean_std = {}
@@ -22,13 +22,26 @@ for gpt_file in ['tweet_responses_2025.csv','tweet_responses_2025_few-shot_n=2.c
         if 'gpt' not in col:
             continue
         text2response = {t:h for t,h in gpt_responses[['text',col]].values}
-        response = np.array([1 if 'yes' in str(text2response[o]).lower() else 0 for o in text_train])
-        gt = np.array([round(text2hazard[t]) for t in text_train])    
+        response = np.array([1 if 'yes' in str(text2response[o]).lower() else 0 for o in text_test])
+        gt = np.array([round(text2hazard[t]) for t in text_test])    
         boot_roc = []
         for i in range(50):
             boot_indices = np.random.randint(0,len(response),len(response)) 
             boot_roc.append(roc_auc_score(gt[boot_indices],response[boot_indices]))
         mean_std[gpt_file.replace('.csv','')+'_'+col] = [np.mean(boot_roc),np.std(boot_roc)]
+hazard_synonyms = set(pd.read_csv('comprehensive_words_n=3.csv')['word'].tolist())
+
+syn_hazard = []
+for t in text_test:
+    haz = np.any([word in hazard_synonyms for word in t.lower().split(' ')])
+    syn_hazard.append(haz)
+syn_hazard = np.array(syn_hazard)
+gt = np.array([round(text2hazard[t]) for t in text_test]) 
+boot_roc = []
+for i in range(50):
+    boot_indices = np.random.randint(0,len(response),len(response)) 
+    boot_roc.append(roc_auc_score(gt[boot_indices],response[boot_indices]))
+mean_std['T.D. + Synonyms'] = [np.mean(boot_roc),np.std(boot_roc),len(boot_roc)]
 
 for gpt_file in ['tweet_responses_2025.csv','tweet_responses_2025_few-shot_n=2.csv','tweet_responses_2025_few-shot_n=5.csv']:
     gpt_responses = pd.read_csv(gpt_file)
@@ -39,8 +52,8 @@ for gpt_file in ['tweet_responses_2025.csv','tweet_responses_2025_few-shot_n=2.c
             continue
         print(col)
         text2response = {t:h for t,h in gpt_responses[['text',col]].values}
-        response = np.array([1 if 'yes' in str(text2response[o]).lower() else 0 for o in text_train])
-        gt = np.array([round(text2hazard[t]) for t in text_train])    
+        response = np.array([1 if 'yes' in str(text2response[o]).lower() else 0 for o in text_test])
+        gt = np.array([round(text2hazard[t]) for t in text_test])    
         boot_roc = []
         for i in range(50):
             boot_indices = np.random.randint(0,len(response),len(response)) 
@@ -54,13 +67,11 @@ for embed_file in ['metrics_gpt_vs_gpt_s_new_sentence-transformers_paraphrase-mu
         #if 'auc' in col:
         if '_auc' not in col:
             continue
-        print(col)
         mean_std[embed_file.replace('.csv','')+'_'+col] = [embed_results[col].mean(),embed_results[col].std(),len(embed_results)]
 
 
 matplotlib.rcParams.update({'font.size': 15})
 labelfonts = {'fontname':'Arial','fontsize':15}
-#metrics = pd.read_csv('metrics_gpt_vs_gpt_s.csv')
 cols = list(mean_std.keys())
 bars = [mean_std[c][0] for c in cols]#'GPT3.5-SocCons_auc','GPT3.5-LibCons_auc','GPT4_auc',
 stds = [mean_std[c][1] for c in cols]
@@ -75,13 +86,11 @@ jet = plt.get_cmap('jet')
 plt.bar(list(range(len(cols))),bars,color=[jet(i/(len(cols))) for i in range(len(mean_std.keys()))])
 plt.errorbar(list(range(len(cols))),bars,yerr=stds,color='gray',linestyle='',linewidth=3,label='St. Dev.')
 
-#plt.errorbar(list(range(len(cols))),bars,yerr=errors,color='k',linewidth=8,alpha=1,linestyle='',label='St. Errors')
 ticks = [c.replace('tweet_responses_2025_','').replace('metrics_gpt_vs_gpt_s_new_','').replace('Qwen_','').replace('_n=2','Two-shot').replace('_n=5','Five-shot').replace('few-shot','').replace('_correct_split','').replace('sentence-transformers_','').replace('_10','').replace('_1','').replace('_2','').replace('_3','').replace('_auc','').replace('_',' ').replace('gpt','GPT').replace('Gpt','GPT') for c in cols]
-print(len(ticks))
 plt.xticks(list(range(len(cols))),ticks,rotation=60,ha='right')# 'GPT3.5-SocCons_auc','GPT3.5-LibCons_auc','GPT4_auc',
 plt.ylabel('ROC-AUC')
-#plt.legend(fontsize=14,loc='upper left')
 plt.ylim([0.5,0.85])
 plt.tight_layout()
-plt.savefig('AUC_comparisons_new_all3.pdf')
-#plt.show()
+plt.savefig('AUC_comparisons_new_all.pdf')
+
+
