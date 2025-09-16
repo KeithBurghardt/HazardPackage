@@ -26,3 +26,6 @@ Datasets (extracted from hazard_roc_auc.py):
 - metrics_gpt_vs_gpt_s_new_sentence-transformers_distiluse-base-multilingual-cased-v2_correct_split.csv: ROC-AUC for `distiluse-base-multilingual-cased-v2` embedding model (bootstrapped within a test dataset)
 - metrics_gpt_vs_gpt_s_new_sentence-transformers_paraphrase-multilingual-MiniLM-L12-v2_correct_split.csv: ROC-AUC for `paraphrase-multilingual-MiniLM-L12-v2` embedding model (bootstrapped within a test dataset)
 - metrics_gpt_vs_gpt_s_new_stsb-xlm-r-multilingual_correct_split.csv: ROC-AUC for `stsb-xlm-r-multilingual` embedding model (bootstrapped within a test dataset)
+- hyperparameters.txt: the best hyperparameters for each model studied using `distiluse-base-multilingual-cased-v2`, the best-performing embedding model
+
+
