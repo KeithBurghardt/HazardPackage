@@ -1,0 +1,6 @@
+
+{'model':'NeuralNetwork','dropout_rate': 0.4773334372947606,'relu_alpha': 0.1695196141092998,'l2_lambda': 0.0015771870253277291,'num_layers': 2.0,'batch_size': 16.0}
+{'model':'RandomForest','ccp_alpha': 0.007287948584168768, 'class_weight': 'balanced', 'max_depth': 46, 'max_features': 'log2', 'min_samples_split': 12, 'n_estimators': 116}
+{'model':'SVC','C': 9.825385918425077, 'class_weight': None, 'degree': 4, 'gamma': 'scale','kernel':'rbf', 'shrinking': True}
+{'model':'XGBoost','importance_type': 'gain', 'max_bin': 145, 'max_depth':22, 'max_leaves': 168, 'n_estimators': 76, 'tree_method': 'approx'}
+
